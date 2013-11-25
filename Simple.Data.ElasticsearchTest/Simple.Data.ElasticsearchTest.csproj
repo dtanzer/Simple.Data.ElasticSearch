@@ -60,6 +60,7 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
+    <Compile Include="Assume.cs" />
     <Compile Include="DatabaseHelper.cs" />
     <Compile Include="FindAllByTest.cs" />
     <Compile Include="GetTest.cs" />

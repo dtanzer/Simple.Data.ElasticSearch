@@ -23,7 +23,7 @@ namespace Simple.Data.ElasticsearchTest
         public void QueryWithFacetsReturnsTheSameSearchResultsAsQueryWithoutFacets()
         {
             dynamic facets;
-            IEnumerable<Product> products = db.Products.FindAllBy(Search:"ACME", Tags:db.Products.Tags.TermsFacet(out facets)).Cast<Product>();
+            IEnumerable<Product> products = db.Products.FindAllBy(_:"ACME", Tags:db.Products.Tags.TermsFacet(out facets)).Cast<Product>();
 
             Assert.AreEqual(2, products.Count());
         }

@@ -100,11 +100,10 @@ namespace Simple.Data.Elasticsearch
         internal IEnumerable<IDictionary<string, object>> QueryResultToSimpleDataResult(OperationResult jsonResults)
         {
             var serializer = new JsonNetSerializer();
-            var queryResult = serializer.Deserialize<Dictionary<string, object>>(jsonResults);
 
             if (isCountQuery)
             {
-                var count = queryResult["count"];
+                var count = serializer.ToCountResult(jsonResults).count;
 
                 var enumerable = new List<IDictionary<string, object>>();
                 var dictionary = new Dictionary<string, object>();
@@ -113,8 +112,10 @@ namespace Simple.Data.Elasticsearch
 
                 return enumerable;
             }
-
-            return null;
+            else
+            {
+                return serializer.ToSearchResult<IDictionary<string, object>>(jsonResults).Documents;
+            }
         }
     }
 }
