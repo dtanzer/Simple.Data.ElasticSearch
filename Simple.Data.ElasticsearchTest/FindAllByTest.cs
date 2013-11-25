@@ -19,7 +19,7 @@ namespace Simple.Data.ElasticsearchTest
         [TestMethod]
         public void FindAllByNameOnlySearchesProductName()
         {
-            var products = db.Products.FindAllByName("ACME");
+            var products = db.Products.FindAllBy(Name: "ACME");
 
             Assert.AreEqual(2, products.Count());
         }
@@ -27,7 +27,7 @@ namespace Simple.Data.ElasticsearchTest
         [TestMethod]
         public void FindAllByNameReturnsCorrectProducts()
         {
-            List<Product> products = db.Products.FindAllByName("ACME");
+            List<Product> products = db.Products.FindAllBy(Name: "ACME");
 
             Assume.AssumeEqual(2, products.Count);
             AssertResultContains(products, "ACME Hole in a box");
