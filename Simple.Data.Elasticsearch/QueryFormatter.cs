@@ -36,6 +36,30 @@ namespace Simple.Data.Elasticsearch
         private IDictionary<string, object> EqualQueryExpression(SimpleExpression expression)
         {
             var leftHandName = GetLeftHandName(expression);
+            if (leftHandName == "_")
+            {
+                return CreateSearchQuery(expression, leftHandName);
+            }
+            else
+            {
+                return CreateMatchPhraseQuery(expression, leftHandName);
+            }
+        }
+
+        private IDictionary<string, object> CreateSearchQuery(SimpleExpression expression, string leftHandName)
+        {
+            var searchQuery = new Dictionary<string, object>();
+
+            var searchContent = new Dictionary<String, object>();
+            searchQuery["query_string"] = searchContent;
+
+            searchContent["query"] = expression.RightOperand;
+
+            return searchQuery;
+        }
+
+        private static IDictionary<string, object> CreateMatchPhraseQuery(SimpleExpression expression, string leftHandName)
+        {
             var matchQuery = new Dictionary<string, object>();
 
             var matchContent = new Dictionary<String, object>();

@@ -5,7 +5,7 @@ using System.Linq;
 namespace Simple.Data.ElasticsearchTest
 {
     [TestClass]
-    public class FindAllByTest
+    public class FindAllProductsByTest
     {
         private dynamic db;
 
@@ -32,6 +32,25 @@ namespace Simple.Data.ElasticsearchTest
             Assume.AssumeEqual(2, products.Count);
             AssertResultContains(products, "ACME Hole in a box");
             AssertResultContains(products, "ACME Dynamite");
+        }
+
+        [TestMethod]
+        public void FindInAllFieldsFindsAllProducts()
+        {
+            var products = db.Products.FindAllBy(_: "ACME");
+
+            Assert.AreEqual(3, products.Count());
+        }
+
+        [TestMethod]
+        public void FindInAllFieldsRetunsCorrectProducts()
+        {
+            List<Product> products = db.Products.FindAllBy(_: "ACME");
+
+            Assume.AssumeEqual(3, products.Count);
+            AssertResultContains(products, "ACME Hole in a box");
+            AssertResultContains(products, "ACME Dynamite");
+            AssertResultContains(products, "Laramie Cigarettes");
         }
 
         private static void AssertResultContains(List<Product> result, string productName)
