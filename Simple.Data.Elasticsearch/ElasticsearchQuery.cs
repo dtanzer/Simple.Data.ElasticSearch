@@ -67,14 +67,19 @@ namespace Simple.Data.Elasticsearch
 
         internal string BuildCommand()
         {
+            string tableName = query.TableName;
+            if (tableName == "_")
+            {
+                tableName = null;
+            }
             string command;
             if (isCountQuery)
             {
-                command = new CountCommand(indexName, query.TableName);
+                command = new CountCommand(indexName, tableName);
             }
             else
             {
-                command = new SearchCommand(indexName, query.TableName);
+                command = new SearchCommand(indexName, tableName);
             }
             return command;
         }
