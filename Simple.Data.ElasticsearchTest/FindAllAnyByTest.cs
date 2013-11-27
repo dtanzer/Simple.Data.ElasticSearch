@@ -20,7 +20,7 @@ namespace Simple.Data.ElasticsearchTest
         }
 
         [TestMethod]
-        public void FindAllByInCompleteIndexReturnsCorrectEntries()
+        public void FindAllByNameInCompleteIndexReturnsCorrectEntries()
         {
             List<dynamic> products = db._.FindAllBy(Name: "ACME");
 
@@ -28,6 +28,18 @@ namespace Simple.Data.ElasticsearchTest
             AssertResultContains(products, "ACME Hole in a box");
             AssertResultContains(products, "ACME Dynamite");
             AssertResultContains(products, "ACME Corporation");
+        }
+
+        [TestMethod]
+        public void FindAllByAnyInCompleteIndexReturnsCorrectEntries()
+        {
+            List<dynamic> products = db._.FindAllBy(_: "ACME");
+
+            Assert.AreEqual(4, products.Count());
+            AssertResultContains(products, "ACME Hole in a box");
+            AssertResultContains(products, "ACME Dynamite");
+            AssertResultContains(products, "ACME Corporation");
+            AssertResultContains(products, "Laramie Cigarettes");
         }
 
         private static void AssertResultContains(List<dynamic> result, string name)
